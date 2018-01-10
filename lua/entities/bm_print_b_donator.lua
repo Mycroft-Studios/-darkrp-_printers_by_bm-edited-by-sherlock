@@ -36,7 +36,7 @@ function ENT:Initialize()
 
 		local payday = file.Read( "Printer_B.txt", "DATA" )
 		if(payday == nil)then
-		payday = 100
+		payday = 200
 		else
 		payday = tonumber(payday)
 		end
@@ -182,10 +182,10 @@ end
 function ENT:Think()
 	if(SERVER)then
 	if ( timer.Exists( "print_money" ) == false ) then
-	timer.Create( "print_money", 1, 0, function()
+	timer.Create( "print_money", 2, 0, function()
 
 	local addprint = self:GetNWFloat("proc_print", 0) + (100/60)
-	local addmoney = self:GetNWInt("money", 0) + self:GetNWInt("payday", 100)
+	local addmoney = self:GetNWInt("money", 0) + self:GetNWInt("payday", 200)
 	local delpower = self:GetNWFloat("proc_power", 0) - (1/9)
 	local delcool = self:GetNWFloat("proc_cooling", 0) - (1/6)
 
