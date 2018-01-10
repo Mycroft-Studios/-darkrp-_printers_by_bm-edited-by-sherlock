@@ -28,8 +28,8 @@ function ENT:Initialize()
 
 		self:SetNWEntity("scr", screen)
 		self:SetNWFloat("proc_print", 0)
-		self:SetNWFloat("proc_power", 0)
-		self:SetNWFloat("proc_paper", 0)
+		self:SetNWFloat("proc_power", 3)
+		self:SetNWFloat("proc_paper", 3)
 		self:SetNWFloat("proc_cooling", 5)
 		self:SetNWInt("money", 0)
 
@@ -192,7 +192,7 @@ function ENT:Think()
 	local delpower = self:GetNWFloat("proc_power", 0) - (1/9)
 	local delcool = self:GetNWFloat("proc_cooling", 0) - (1/6)
 
-	if(self:GetNWFloat("proc_power", 0) > 0)then
+	if(self:GetNWFloat("proc_power", 2) > 0)then
 	self:SetNWFloat("proc_power", delpower)
 	else
 	self:SetNWFloat("proc_power", 0)
@@ -200,21 +200,24 @@ function ENT:Think()
 
 
 	if(self:GetNWFloat("proc_cooling", 2) > 0)then
-	if(self:GetNWFloat("proc_power", 0) > 0)then
 	self:SetNWFloat("proc_cooling", delcool)
 	end
 	else
 	self:Ignite( 30 )
 	self:SetNWFloat("proc_cooling", 2)
 	end
-
-
+ else
+	if(self:GetNWFloat("proc_cooling", 2) > 0)then
+	if(self:GetNWFloat("proc_power", 2) > 0)then
+	if(self:GetNWFloat("proc_paper", 2) > 0)then
+	self:Ignite( 30 )
+end
 	if(self:GetNWFloat("proc_power", 0) > 0 && self:GetNWFloat("proc_paper", 0) >= 15)then
 
 	if(self:GetNWFloat("proc_print", 0) < 100)then
 	self:SetNWFloat("proc_print", addprint)
 	else
-	local delpaper = self:GetNWFloat("proc_paper", 0) - 50
+	local delpaper = self:GetNWFloat("proc_paper", 0) - 15
 	self:SetNWInt("money", addmoney)
 	self:SetNWFloat("proc_paper", delpaper)
 	self:SetNWFloat("proc_print", 0)
@@ -247,12 +250,12 @@ timer.Remove("print_money")
 self.sound:Stop()
 if (self:Health() <= 0) then
 local explosion = ents.Create( "env_explosion" )
-		explosion:SetKeyValue( "spawnflags", 144 )
-		explosion:SetKeyValue( "iMagnitude", 200 )
-		explosion:SetKeyValue( "iRadiusOverride", 150 )
+		explosion:SetKeyValue( "spawnflags", 200 )
+		explosion:SetKeyValue( "iMagnitude", 350 )
+		explosion:SetKeyValue( "iRadiusOverride", 200 )
 		explosion:SetPos(self:GetPos())
 		explosion:Spawn( )
-		explosion:Fire("explode","",0)
+		explosion:Fire("explode","",1)
 		self:EmitSound( "ambient/levels/labs/electric_explosion4.wav")
 		end
 end
